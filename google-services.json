@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "835751403209",
+    "firebase_url": "https://bookss-36ee9.firebaseio.com",
+    "project_id": "bookss-36ee9",
+    "storage_bucket": "bookss-36ee9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:835751403209:android:edecccb35bbdd45f",
+        "android_client_info": {
+          "package_name": "com.nayakaurn.bookss"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "835751403209-qgjrodj0c3v6f52125jsqhaem2f68aiu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxUex1CDcmjiWhLXRNWRHMb32I6JXWqNA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
