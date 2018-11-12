@@ -142,7 +142,7 @@ public class DiscussForum extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
+        LandingPage.navigationView.setVisibility(View.GONE);
         StaticVariableClass.booklistrefrence.child(""+StaticVariableClass.cardposition).child("choice").child(""+StaticVariableClass.choosecardposition).child("qna").child(""+StaticVariableClass.discussposition).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

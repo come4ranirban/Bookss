@@ -1,5 +1,6 @@
 package com.nayakaurn.bookss;
 
+import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Color;
@@ -10,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -20,8 +22,19 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.razorpay.Checkout;
+import com.razorpay.PaymentResultListener;
 
-public class LandingPage extends AppCompatActivity {
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import javax.xml.transform.Result;
+
+public class LandingPage extends AppCompatActivity{
 
     GoogleSignInAccount account;
     FirebaseAuth.AuthStateListener  mAuthListner;
@@ -130,6 +143,7 @@ public class LandingPage extends AppCompatActivity {
                 StaticVariableClass.fragmentTransaction= getFragmentManager().beginTransaction().replace(R.id.frame, StaticVariableClass.resumefragment.get(StaticVariableClass.resumefragment.size()-1));
                 StaticVariableClass.fragmentTransaction.commit();
             }
+
         }
         setfragment= false;
     }
@@ -156,5 +170,22 @@ public class LandingPage extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         setfragment= true;
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        BooksLibrary.booksLibrary.onActivityResult(requestCode, resultCode, data);
+        Toast.makeText(getApplicationContext(), "res", Toast.LENGTH_SHORT).show();
+        if(requestCode==100){
+            if(resultCode== RESULT_OK){
+                Toast.makeText(getApplicationContext(), "payment sucess", Toast.LENGTH_SHORT).show();
+                StaticVariableClass.fragmentTransaction= LandingPage.landingPage.getFragmentManager().beginTransaction().replace(R.id.frame, new Choise());
+                StaticVariableClass.fragmentTransaction.commit();
+            }
+            if(resultCode== RESULT_CANCELED){
+                Toast.makeText(getApplicationContext(), "Payment Failed\n Try again", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

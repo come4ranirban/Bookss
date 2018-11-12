@@ -1,6 +1,7 @@
 package com.nayakaurn.bookss;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,9 +30,13 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksViewHolder>{
 
 
     int count;
+    DatabaseReference booklistreference;
+    public static BooksAdapter booksAdapter;
+
 
     BooksAdapter(int count, DatabaseReference booklistreference){
         this.count =count;
+        booksAdapter= this;
     }
 
     @NonNull
@@ -51,9 +57,26 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksViewHolder>{
             public void onClick(View v) {
                 StaticVariableClass.cardposition = position;
                 StaticVariableClass.lastfragment.add(BooksLibrary.booksLibrary);
-                LandingPage.navigationView.setVisibility(View.GONE);
-                StaticVariableClass.fragmentTransaction= LandingPage.landingPage.getFragmentManager().beginTransaction().replace(R.id.frame, new Choise());
-                StaticVariableClass.fragmentTransaction.commit();
+                DatabaseReference booklistreference= FirebaseDatabase.getInstance().getReference("Books");
+                FirebaseUser user= StaticVariableClass.mAuth.getCurrentUser();
+                final String email= user.getEmail().substring(0,user.getEmail().indexOf("@"));
+                booklistreference.child(""+position).child("subscribers").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.hasChild(email)){
+                            StaticVariableClass.fragmentTransaction= LandingPage.landingPage.getFragmentManager().beginTransaction().replace(R.id.frame, new Choise());
+                            StaticVariableClass.fragmentTransaction.commit();
+                        }else {
+                            Intent intent= new Intent(LandingPage.landingPage, BookIntro.class);
+                            LandingPage.landingPage.startActivityForResult(intent, 100);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
 
@@ -77,6 +100,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksViewHolder>{
     public int getItemCount() {
         return count;
     }
+
 }
 
 class BooksViewHolder extends RecyclerView.ViewHolder {

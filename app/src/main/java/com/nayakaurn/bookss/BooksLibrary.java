@@ -2,6 +2,7 @@ package com.nayakaurn.bookss;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -20,6 +21,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import static android.app.Activity.RESULT_OK;
 
 //Calls BooksAdapter for recyclerview
 public class BooksLibrary extends Fragment{
@@ -50,6 +53,7 @@ public class BooksLibrary extends Fragment{
     @Override
     public void onResume() {
         super.onResume();
+
         StaticVariableClass.booklistrefrence.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

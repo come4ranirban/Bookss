@@ -48,6 +48,7 @@ public class Choise extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        LandingPage.navigationView.setVisibility(View.GONE);
         DatabaseReference booklistreference= FirebaseDatabase.getInstance().getReference("Books");
         booklistreference.child(""+StaticVariableClass.cardposition).child("choice").addValueEventListener(new ValueEventListener() {
             @Override

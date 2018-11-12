@@ -3,6 +3,8 @@
     package="com.nayakaurn.bookss">
 
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.READ_SMS"></uses-permission>
+    <uses-permission android:name="android.permission.RECEIVE_MMS"></uses-permission>
 
     <application
         android:allowBackup="true"
@@ -11,8 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LandingPage"
-                  android:noHistory="true">
+        <activity android:name=".LandingPage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,5 +21,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".SignInPage" android:noHistory="true"></activity>
+        <activity android:name=".BookIntro"></activity>
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_test_mkqCH84JsiYfsa"
+            />
     </application>
     </manifest>
