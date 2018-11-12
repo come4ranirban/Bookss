@@ -46,51 +46,53 @@ public class LandingPage extends AppCompatActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        landingPage = this;
+
         Fresco.initialize(this);
 
         if(StaticVariableClass.loadsplashscreen){
             setContentView(R.layout.booksdisplay);
             initialize();
         }else {
-            StaticVariableClass.loadsplashscreen = true;
-            setContentView(R.layout.coverpage);
-            StaticVariableClass.mAuth = FirebaseAuth.getInstance();
-            mAuthListner = new FirebaseAuth.AuthStateListener() {
-                @Override
-                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                    if(firebaseAuth.getCurrentUser()==null)
-                        setContentView(R.layout.signed_in);
-                }
-            };
-
-            // Check for existing Google Sign In account, if the user is already signed in
-            // the GoogleSignInAccount will be non-null.
-            account = GoogleSignIn.getLastSignedInAccount(this);
-
-            new CountDownTimer(2000,1000) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-
-                }
-
-                @Override
-                public void onFinish() {
-
-                    if(account!=null){
-                        setContentView(R.layout.booksdisplay);
-                        initialize();
-                    }
-                    else
-                    {
-                        Intent intent= new Intent(landingPage, SignInPage.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                        finish();
-                    }
-                }
-            }.start();
+            signInCheck();
         }
+    }
+
+    public void signInCheck(){
+        StaticVariableClass.loadsplashscreen = true;
+        setContentView(R.layout.coverpage);
+        StaticVariableClass.mAuth = FirebaseAuth.getInstance();
+        mAuthListner = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if(firebaseAuth.getCurrentUser()==null)
+                    setContentView(R.layout.signed_in);
+            }
+        };
+
+        // Check for existing Google Sign In account, if the user is already signed in
+        // the GoogleSignInAccount will be non-null.
+        account = GoogleSignIn.getLastSignedInAccount(this);
+
+        new CountDownTimer(2000,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+
+                if(account!=null){
+                    setContentView(R.layout.booksdisplay);
+                    initialize();
+                }
+                else
+                {
+                    Intent intent= new Intent(landingPage, SignInPage.class);
+                    startActivityForResult(intent, 111);
+                }
+            }
+        }.start();
     }
 
     public void initialize(){
@@ -123,15 +125,16 @@ public class LandingPage extends AppCompatActivity{
             }
         });
 
-        if(setfragment == false){
-            StaticVariableClass.fragmentTransaction= getFragmentManager().beginTransaction().add(R.id.frame, new BooksLibrary());
-            StaticVariableClass.fragmentTransaction.commit();
-        }
+
+        StaticVariableClass.fragmentTransaction= getFragmentManager().beginTransaction().add(R.id.frame, new BooksLibrary());
+        StaticVariableClass.fragmentTransaction.commit();
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        landingPage = this;
     }
 
     @Override
@@ -175,13 +178,22 @@ public class LandingPage extends AppCompatActivity{
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        BooksLibrary.booksLibrary.onActivityResult(requestCode, resultCode, data);
-        Toast.makeText(getApplicationContext(), "res", Toast.LENGTH_SHORT).show();
+
         if(requestCode==100){
             if(resultCode== RESULT_OK){
                 Toast.makeText(getApplicationContext(), "payment sucess", Toast.LENGTH_SHORT).show();
                 StaticVariableClass.fragmentTransaction= LandingPage.landingPage.getFragmentManager().beginTransaction().replace(R.id.frame, new Choise());
                 StaticVariableClass.fragmentTransaction.commit();
+            }
+            if(resultCode== RESULT_CANCELED){
+                Toast.makeText(getApplicationContext(), "Payment Failed\n Try again", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        if(requestCode==111){
+            if(resultCode== RESULT_OK){
+                setContentView(R.layout.booksdisplay);
+                initialize();
             }
             if(resultCode== RESULT_CANCELED){
                 Toast.makeText(getApplicationContext(), "Payment Failed\n Try again", Toast.LENGTH_SHORT).show();

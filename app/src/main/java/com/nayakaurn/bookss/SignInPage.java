@@ -1,5 +1,6 @@
 package com.nayakaurn.bookss;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
@@ -100,13 +101,12 @@ public class SignInPage extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             Intent intent= new Intent();
                             intent.setComponent(new ComponentName(SignInPage.this, LandingPage.class));
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                            startActivity(intent);
+                            setResult(Activity.RESULT_OK, intent);
+                            finish();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("TAG", "signInWithCredential:failure", task.getException());
                             //Snackbar.make(findViewById(R.id.main_layout), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
-
                         }
                     }
                 });

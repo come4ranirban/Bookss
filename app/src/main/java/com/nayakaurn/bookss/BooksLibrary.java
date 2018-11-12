@@ -54,12 +54,14 @@ public class BooksLibrary extends Fragment{
     public void onResume() {
         super.onResume();
 
+
         StaticVariableClass.booklistrefrence.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 count= (int) dataSnapshot.getChildrenCount();
                 if(count>0){
                     progressBar.setVisibility(View.GONE);
+                    StaticVariableClass.booklistrefrence.removeEventListener(this);
                     recyclerView.setAdapter(new BooksAdapter(count, StaticVariableClass.booklistrefrence));
                 }
             }

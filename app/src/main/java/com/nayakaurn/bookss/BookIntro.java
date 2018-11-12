@@ -38,6 +38,7 @@ public class BookIntro extends AppCompatActivity implements PaymentResultListene
     BookIntro bookIntro;
     SimpleDraweeView bookcoverpage;
     DataSnapshot bookintrodataSnapshot;
+    ValueEventListener valueEventListener;
     Button buynow;
     String email,  orderId;
 
@@ -52,6 +53,7 @@ public class BookIntro extends AppCompatActivity implements PaymentResultListene
         bookcoverpage= (SimpleDraweeView)findViewById(R.id.bookimage);
         buynow= (Button)findViewById(R.id.buynow);
         booklistreference= FirebaseDatabase.getInstance().getReference("Books");
+
         bookIntro= this;
     }
 
@@ -67,6 +69,7 @@ public class BookIntro extends AppCompatActivity implements PaymentResultListene
                 bookname.setText(dataSnapshot.child("bookname").getValue().toString());
                 intro.setText(dataSnapshot.child("intro").getValue().toString());
                 bookprice.setText(dataSnapshot.child("price").getValue().toString());
+                valueEventListener= this;
             }
 
             @Override
@@ -144,6 +147,7 @@ public class BookIntro extends AppCompatActivity implements PaymentResultListene
     public void onPaymentSuccess(String s) {
 
         bookintrodataSnapshot.child("subscribers").getRef().child(email).setValue(s);
+        booklistreference.child(""+StaticVariableClass.cardposition).removeEventListener(valueEventListener);
         Intent resultintent= new Intent();
         resultintent.setComponent(new ComponentName(BookIntro.this, LandingPage.class));
         setResult(Activity.RESULT_OK, resultintent);
@@ -152,6 +156,7 @@ public class BookIntro extends AppCompatActivity implements PaymentResultListene
 
     @Override
     public void onPaymentError(int i, String s) {
+        booklistreference.child(""+StaticVariableClass.cardposition).removeEventListener(valueEventListener);
         Intent resultintent= new Intent();
         resultintent.setComponent(new ComponentName(BookIntro.this, LandingPage.class));
         setResult(Activity.RESULT_CANCELED, resultintent);

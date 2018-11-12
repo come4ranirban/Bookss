@@ -57,7 +57,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksViewHolder>{
             public void onClick(View v) {
                 StaticVariableClass.cardposition = position;
                 StaticVariableClass.lastfragment.add(BooksLibrary.booksLibrary);
-                DatabaseReference booklistreference= FirebaseDatabase.getInstance().getReference("Books");
+                final DatabaseReference booklistreference= FirebaseDatabase.getInstance().getReference("Books");
                 FirebaseUser user= StaticVariableClass.mAuth.getCurrentUser();
                 final String email= user.getEmail().substring(0,user.getEmail().indexOf("@"));
                 booklistreference.child(""+position).child("subscribers").addValueEventListener(new ValueEventListener() {
@@ -67,6 +67,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksViewHolder>{
                             StaticVariableClass.fragmentTransaction= LandingPage.landingPage.getFragmentManager().beginTransaction().replace(R.id.frame, new Choise());
                             StaticVariableClass.fragmentTransaction.commit();
                         }else {
+                            booklistreference.child(""+position).child("subscribers").removeEventListener(this);
                             Intent intent= new Intent(LandingPage.landingPage, BookIntro.class);
                             LandingPage.landingPage.startActivityForResult(intent, 100);
                         }
