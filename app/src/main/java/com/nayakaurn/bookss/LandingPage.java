@@ -179,6 +179,7 @@ public class LandingPage extends AppCompatActivity{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        //for Payment call back
         if(requestCode==100){
             if(resultCode== RESULT_OK){
                 Toast.makeText(getApplicationContext(), "payment sucess", Toast.LENGTH_SHORT).show();
@@ -190,6 +191,7 @@ public class LandingPage extends AppCompatActivity{
             }
         }
 
+        //for signin call back
         if(requestCode==111){
             if(resultCode== RESULT_OK){
                 setContentView(R.layout.booksdisplay);
