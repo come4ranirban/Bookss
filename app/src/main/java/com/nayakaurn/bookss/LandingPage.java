@@ -24,6 +24,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -33,6 +34,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.razorpay.Checkout;
 import com.razorpay.PaymentResultListener;
 
+import io.fabric.sdk.android.Fabric;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
@@ -53,8 +55,10 @@ public class LandingPage extends AppCompatActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
 
         Fresco.initialize(this);
+        //Crashlytics.getInstance().crash();
 
         if(StaticVariableClass.loadsplashscreen){
             setContentView(R.layout.booksdisplay);
@@ -133,7 +137,6 @@ public class LandingPage extends AppCompatActivity{
             }
         });
 
-
         StaticVariableClass.fragmentTransaction= getFragmentManager().beginTransaction().add(R.id.frame, new BooksLibrary());
         StaticVariableClass.fragmentTransaction.commit();
 
@@ -191,10 +194,12 @@ public class LandingPage extends AppCompatActivity{
         if(requestCode==100){
             if(resultCode== RESULT_OK){
                 Toast.makeText(getApplicationContext(), "payment sucess", Toast.LENGTH_SHORT).show();
+                StaticVariableClass.purchasestatus=true;
                 StaticVariableClass.fragmentTransaction= LandingPage.landingPage.getFragmentManager().beginTransaction().replace(R.id.frame, new Choise());
                 StaticVariableClass.fragmentTransaction.commit();
             }
             if(resultCode== RESULT_CANCELED){
+                StaticVariableClass.purchasestatus=false;
                 Toast.makeText(getApplicationContext(), "Payment Failed\n Try again", Toast.LENGTH_SHORT).show();
             }
         }
@@ -256,5 +261,4 @@ public class LandingPage extends AppCompatActivity{
         popup.inflate(R.menu.marksmenu);
         popup.show();
     }
-
 }

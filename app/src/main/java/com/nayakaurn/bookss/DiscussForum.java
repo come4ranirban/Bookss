@@ -2,6 +2,7 @@ package com.nayakaurn.bookss;
 
 import android.annotation.SuppressLint;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -14,6 +15,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -102,6 +104,9 @@ public class DiscussForum extends Fragment {
                         writecomment.getText().clear();
                     }
                 }
+
+                InputMethodManager imm = (InputMethodManager)LandingPage.landingPage.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(writecomment.getWindowToken(), 0);
             }
         });
     }
@@ -118,7 +123,6 @@ public class DiscussForum extends Fragment {
 
             }
         });
-
     }
 
 
@@ -131,6 +135,7 @@ public class DiscussForum extends Fragment {
             comentline.setVisibility(View.VISIBLE);
             comments.setHasFixedSize(false);
             endview.setVisibility(View.VISIBLE);
+            comments.scrollToPosition(c-1);
             comments.setAdapter(new CommentsAdapter(c));
         }else {
             comments.setVisibility(View.GONE);
@@ -138,8 +143,6 @@ public class DiscussForum extends Fragment {
             endview.setVisibility(View.GONE);
             comentline.setVisibility(View.GONE);
         }
-
-
     }
 
     int c;
@@ -153,7 +156,7 @@ public class DiscussForum extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 StaticVariableClass.readsnapshot= dataSnapshot;
                 c= (int)dataSnapshot.child("comment").getChildrenCount();
-                new CountDownTimer(500,500) {
+                new CountDownTimer(200,100) {
                     @Override
                     public void onTick(long millisUntilFinished) {
 

@@ -1,5 +1,6 @@
 package com.nayakaurn.bookss;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -38,9 +39,21 @@ public class ChoiceAdapter extends RecyclerView.Adapter<ChoiceViewHolder> {
             @Override
             public void onClick(View v) {
                 StaticVariableClass.choosecardposition = position;
-                StaticVariableClass.lastfragment.add(Choise.choise);
-                StaticVariableClass.fragmentTransaction= LandingPage.landingPage.getFragmentManager().beginTransaction().replace(R.id.frame, new QnA());
-                StaticVariableClass.fragmentTransaction.commit();
+
+                if(position == 0){
+                    StaticVariableClass.lastfragment.add(Choise.choise);
+                    StaticVariableClass.fragmentTransaction= LandingPage.landingPage.getFragmentManager().beginTransaction().replace(R.id.frame, new QnA());
+                    StaticVariableClass.fragmentTransaction.commit();
+                }else {
+                    if(StaticVariableClass.purchasestatus){
+                        StaticVariableClass.lastfragment.add(Choise.choise);
+                        StaticVariableClass.fragmentTransaction= LandingPage.landingPage.getFragmentManager().beginTransaction().replace(R.id.frame, new QnA());
+                        StaticVariableClass.fragmentTransaction.commit();
+                    }else {
+                        Intent intent= new Intent(LandingPage.landingPage, BookIntro.class);
+                        LandingPage.landingPage.startActivityForResult(intent, 100);
+                    }
+                }
             }
         });
     }

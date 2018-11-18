@@ -64,12 +64,16 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksViewHolder>{
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if(dataSnapshot.hasChild(email)){
+                            StaticVariableClass.purchasestatus = true;
                             StaticVariableClass.fragmentTransaction= LandingPage.landingPage.getFragmentManager().beginTransaction().replace(R.id.frame, new Choise());
                             StaticVariableClass.fragmentTransaction.commit();
                         }else {
                             booklistreference.child(""+position).child("subscribers").removeEventListener(this);
-                            Intent intent= new Intent(LandingPage.landingPage, BookIntro.class);
-                            LandingPage.landingPage.startActivityForResult(intent, 100);
+                            StaticVariableClass.purchasestatus = false;
+                            StaticVariableClass.fragmentTransaction= LandingPage.landingPage.getFragmentManager().beginTransaction().replace(R.id.frame, new Choise());
+                            StaticVariableClass.fragmentTransaction.commit();
+                            /*Intent intent= new Intent(LandingPage.landingPage, BookIntro.class);
+                            LandingPage.landingPage.startActivityForResult(intent, 100);*/
                         }
                     }
 

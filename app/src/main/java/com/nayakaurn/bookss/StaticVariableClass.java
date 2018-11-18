@@ -23,7 +23,7 @@ public class StaticVariableClass {
     public static DatabaseReference booklistrefrence;
     public static DataSnapshot discussdataSnapshot,readsnapshot;
     public static ImageButton menu;
-    public static boolean loadsplashscreen=false, ansvisible=false;
+    public static boolean loadsplashscreen=false, ansvisible=false, purchasestatus=true;
     public static ArrayList<Fragment> lastfragment= new ArrayList<>();
     public static ArrayList<Fragment> resumefragment= new ArrayList<>();
     public static TextView toolbartxt;

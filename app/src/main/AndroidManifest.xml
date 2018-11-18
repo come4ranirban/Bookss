@@ -26,5 +26,8 @@
             android:name="com.razorpay.ApiKey"
             android:value="rzp_test_mkqCH84JsiYfsa"
             />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="994eee097b8bb205612f5a16b4fd2c483180ecc9" />
     </application>
     </manifest>
