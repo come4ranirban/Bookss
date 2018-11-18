@@ -35,6 +35,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:11.8.0'
     implementation 'com.razorpay:checkout:1.4.9'
     implementation 'com.google.android.gms:play-services-auth:11.8.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -30,6 +30,7 @@ public class QnA extends Fragment {
 
         View v= inflater.inflate(R.layout.qna, container, false);
         StaticVariableClass.toolbartxt.setText("QnA");
+        StaticVariableClass.menu.setVisibility(View.VISIBLE);
         recyclerViewqna= (RecyclerView)v.findViewById(R.id.qna);
         RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerViewqna.setLayoutManager(new LinearLayoutManager(LandingPage.landingPage));
@@ -45,11 +46,25 @@ public class QnA extends Fragment {
     public void onResume() {
         super.onResume();
         LandingPage.navigationView.setVisibility(View.GONE);
-
+        StaticVariableClass.menu.setVisibility(View.VISIBLE);
         StaticVariableClass.booklistrefrence.child(""+StaticVariableClass.cardposition).child("choice").child(""+StaticVariableClass.choosecardposition).child("qna").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getChildrenCount()>0) {
+                int qnacount= (int)dataSnapshot.getChildrenCount();
+                StaticVariableClass.selectedQnA.clear();
+                if(qnacount>0) {
+                    int key=0;
+                    for(int i=0; i<qnacount; i++){
+                        if(StaticVariableClass.marksselected != 0){
+                            if(Integer.parseInt(dataSnapshot.child(""+i).child("marks").getValue().toString())== StaticVariableClass.marksselected) {
+                                StaticVariableClass.selectedQnA.put(key,""+i);
+                                key++;
+                            }
+                        }else {
+                            StaticVariableClass.selectedQnA.put(key,""+i);
+                            key++;
+                        }
+                    }
                     recyclerViewqna.setAdapter(new QnAdapter((int)dataSnapshot.getChildrenCount(), dataSnapshot));
                 }
             }

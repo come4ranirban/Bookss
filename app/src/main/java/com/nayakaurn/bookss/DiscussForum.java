@@ -14,6 +14,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -27,7 +28,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class DiscussForum extends Fragment {
 
-    TextView dquestion,danswer, commenttext;
+    TextView dquestion, commenttext;
+    WebView danswer;
     EditText writecomment;
     RecyclerView comments;
     int position;
@@ -43,7 +45,8 @@ public class DiscussForum extends Fragment {
 
         View v= inflater.inflate(R.layout.discussforum, container, false);
         dquestion= (TextView)v.findViewById(R.id.dquestion);
-        danswer= (TextView)v.findViewById(R.id.danswer);
+        //danswer= (TextView)v.findViewById(R.id.danswer);
+        danswer= (WebView)v.findViewById(R.id.danswer);
         commenttext= (TextView)v.findViewById(R.id.comenttext);
         comments= (RecyclerView)v.findViewById(R.id.comments);
         comment= (ImageButton) v.findViewById(R.id.comment);
@@ -67,11 +70,13 @@ public class DiscussForum extends Fragment {
             dquestion.setText(Html.fromHtml(StaticVariableClass.dques));
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             danswer.setText(Html.fromHtml(StaticVariableClass.dans, Html.FROM_HTML_MODE_LEGACY)) ;
         } else {
             danswer.setText(Html.fromHtml(StaticVariableClass.dans));
-        }
+        }*/
+
+        danswer.loadUrl(StaticVariableClass.dans);
 
         updateDatasnapshot();
         return v;
@@ -148,7 +153,6 @@ public class DiscussForum extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 StaticVariableClass.readsnapshot= dataSnapshot;
                 c= (int)dataSnapshot.child("comment").getChildrenCount();
-                Toast.makeText(LandingPage.landingPage, ""+c, Toast.LENGTH_SHORT).show();
                 new CountDownTimer(500,500) {
                     @Override
                     public void onTick(long millisUntilFinished) {
@@ -167,5 +171,11 @@ public class DiscussForum extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        LandingPage.landingPage.menuVisibility();
     }
 }

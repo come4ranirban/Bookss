@@ -9,12 +9,18 @@ import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +45,7 @@ public class LandingPage extends AppCompatActivity{
     GoogleSignInAccount account;
     FirebaseAuth.AuthStateListener  mAuthListner;
     FrameLayout bookFrame;
+
     static BottomNavigationView navigationView;
     static LandingPage landingPage;
     static boolean setfragment= false;
@@ -99,7 +106,8 @@ public class LandingPage extends AppCompatActivity{
         bookFrame = (FrameLayout)findViewById(R.id.frame);
         navigationView = (BottomNavigationView)findViewById(R.id.bottomnav);
         StaticVariableClass.toolbartxt= (TextView)findViewById(R.id.toolbartxt);
-
+        StaticVariableClass.menu= (ImageButton)findViewById(R.id.menu);
+        StaticVariableClass.menu.setVisibility(View.GONE);
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -142,11 +150,11 @@ public class LandingPage extends AppCompatActivity{
         super.onResume();
 
         if(setfragment){
+
             if(StaticVariableClass.resumefragment.size()>0){
                 StaticVariableClass.fragmentTransaction= getFragmentManager().beginTransaction().replace(R.id.frame, StaticVariableClass.resumefragment.get(StaticVariableClass.resumefragment.size()-1));
                 StaticVariableClass.fragmentTransaction.commit();
             }
-
         }
         setfragment= false;
     }
@@ -202,4 +210,51 @@ public class LandingPage extends AppCompatActivity{
             }
         }
     }
+
+    public static void menuVisibility(){
+        StaticVariableClass.menu.setVisibility(View.VISIBLE);
+    }
+
+    public void onMenuClick(View v){
+        PopupMenu popup = new PopupMenu(this, v);
+        // This activity implements OnMenuItemClickListener
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                switch (item.getItemId()){
+                    case R.id.one:
+                        StaticVariableClass.marksselected = 1;
+                        StaticVariableClass.fragmentTransaction= LandingPage.landingPage.getFragmentManager().beginTransaction().replace(R.id.frame, new QnA());
+                        StaticVariableClass.fragmentTransaction.commit();
+                        return true;
+
+                    case R.id.two:
+                        StaticVariableClass.marksselected = 2;
+                        StaticVariableClass.fragmentTransaction= LandingPage.landingPage.getFragmentManager().beginTransaction().replace(R.id.frame, new QnA());
+                        StaticVariableClass.fragmentTransaction.commit();
+                        return true;
+
+                    case R.id.five:
+                        StaticVariableClass.marksselected = 5;
+                        StaticVariableClass.fragmentTransaction= LandingPage.landingPage.getFragmentManager().beginTransaction().replace(R.id.frame, new QnA());
+                        StaticVariableClass.fragmentTransaction.commit();
+                        return true;
+
+                    case R.id.allq:
+                        StaticVariableClass.marksselected = 0;
+                        StaticVariableClass.fragmentTransaction= LandingPage.landingPage.getFragmentManager().beginTransaction().replace(R.id.frame, new QnA());
+                        StaticVariableClass.fragmentTransaction.commit();
+                        return true;
+
+                    default:
+                        StaticVariableClass.marksselected = 0;
+                        return true;
+                }
+            }
+        });
+        popup.inflate(R.menu.marksmenu);
+        popup.show();
+    }
+
 }

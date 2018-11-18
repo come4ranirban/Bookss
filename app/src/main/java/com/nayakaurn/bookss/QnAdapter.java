@@ -7,6 +7,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -27,6 +28,7 @@ public class QnAdapter extends RecyclerView.Adapter <QnAViewHolder>{
     int count;
     DataSnapshot dataSnapshot;
     String qhtml,ahtml;
+    View v;
 
     QnAdapter(int count, DataSnapshot dataSnapshot){
         this.dataSnapshot = dataSnapshot;
@@ -37,26 +39,29 @@ public class QnAdapter extends RecyclerView.Adapter <QnAViewHolder>{
     @Override
     public QnAViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater= LayoutInflater.from(LandingPage.landingPage);
-        View v= inflater.inflate(R.layout.questionwithans, parent, false);
+        v= inflater.inflate(R.layout.questionwithans, parent, false);
         QnAViewHolder qnAViewHolder= new QnAViewHolder(v);
         return qnAViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final QnAViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final QnAViewHolder holder, final int count) {
 
-        qhtml= dataSnapshot.child(""+position).child("q").getValue().toString();
-        ahtml= dataSnapshot.child(""+position).child("a").getValue().toString();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        final String position= StaticVariableClass.selectedQnA.get(count);
+        qhtml= dataSnapshot.child(position).child("q").getValue().toString();
+        ahtml= dataSnapshot.child(position).child("a").getValue().toString();
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             holder.answer.setText(Html.fromHtml(ahtml, Html.FROM_HTML_MODE_LEGACY)) ;
         } else {
             holder.answer.setText(Html.fromHtml(ahtml));
-        }
+        }*/
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
             holder.question.setText(Html.fromHtml(qhtml, Html.FROM_HTML_MODE_LEGACY)) ;
         }else
             holder.question.setText(Html.fromHtml(qhtml));
+
+        holder.answer.loadUrl(ahtml);
 
         holder.ansclick.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,10 +83,11 @@ public class QnAdapter extends RecyclerView.Adapter <QnAViewHolder>{
         holder.discuss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StaticVariableClass.dques =  dataSnapshot.child(""+position).child("q").getValue().toString();
-                StaticVariableClass.dans= dataSnapshot.child(""+position).child("a").getValue().toString();
+                StaticVariableClass.menu.setVisibility(View.GONE);
+                StaticVariableClass.dques =  dataSnapshot.child(position).child("q").getValue().toString();
+                StaticVariableClass.dans= dataSnapshot.child(position).child("a").getValue().toString();
                 StaticVariableClass.discussdataSnapshot= dataSnapshot;
-                StaticVariableClass.discussposition= position;
+                StaticVariableClass.discussposition=Integer.parseInt(position);
                 StaticVariableClass.lastfragment.add(QnA.qnA);
                 StaticVariableClass.fragmentTransaction= LandingPage.landingPage.getFragmentManager().beginTransaction().add(R.id.frame, new DiscussForum());
                 StaticVariableClass.fragmentTransaction.commit();
@@ -92,13 +98,14 @@ public class QnAdapter extends RecyclerView.Adapter <QnAViewHolder>{
 
     @Override
     public int getItemCount() {
-        return count;
+        return StaticVariableClass.selectedQnA.size();
     }
 }
 
 class QnAViewHolder extends RecyclerView.ViewHolder{
 
-    TextView question, answer;
+    TextView question;
+    WebView answer;
     ImageView anscheck;
     LinearLayout ansclick,discuss;
 
@@ -107,7 +114,8 @@ class QnAViewHolder extends RecyclerView.ViewHolder{
 
         question= (TextView)itemView.findViewById(R.id.question);
         anscheck= (ImageView)itemView.findViewById(R.id.anscheck);
-        answer= (TextView)itemView.findViewById(R.id.answer);
+        //answer= (TextView)itemView.findViewById(R.id.answer);
+        answer= (WebView)itemView.findViewById(R.id.answer);
         ansclick= (LinearLayout)itemView.findViewById(R.id.ansclick);
         discuss= (LinearLayout)itemView.findViewById(R.id.discuss);
     }
