@@ -1,14 +1,19 @@
 package com.nayakaurn.bookss;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -50,6 +55,16 @@ public class SignInPage extends AppCompatActivity {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        //inapp permissions
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.GET_ACCOUNTS)!= PackageManager.PERMISSION_GRANTED)
+                requestPermissions(new String[]{android.Manifest.permission.GET_ACCOUNTS},1);
+            //if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_SMS)!= PackageManager.PERMISSION_GRANTED)
+            //    requestPermissions(new String[]{Manifest.permission.READ_SMS},2);
+
+        }
+
 
         button = (SignInButton)findViewById(R.id.signin);
         button.setOnClickListener(new View.OnClickListener() {
@@ -105,10 +120,30 @@ public class SignInPage extends AppCompatActivity {
                             finish();
                         } else {
                             // If sign in fails, display a message to the user.
+                            Toast.makeText(getApplicationContext(), "LogIn Failed", Toast.LENGTH_SHORT).show();
                             Log.w("TAG", "signInWithCredential:failure", task.getException());
                             //Snackbar.make(findViewById(R.id.main_layout), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
                         }
                     }
                 });
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        if(requestCode==1){
+            if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_DENIED) {
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+                finish();
+            }
+        }
+
+        /*if(requestCode==2){
+            if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_DENIED) {
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+                finish();
+            }
+        }*/
     }
 }

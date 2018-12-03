@@ -40,7 +40,7 @@ public class BookIntro extends AppCompatActivity implements PaymentResultListene
     DataSnapshot bookintrodataSnapshot;
     ValueEventListener valueEventListener;
     Button buynow;
-    String email,  orderId;
+    String email, userId, orderId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -117,6 +117,7 @@ public class BookIntro extends AppCompatActivity implements PaymentResultListene
              */
             FirebaseUser user= StaticVariableClass.mAuth.getCurrentUser();
             email= user.getEmail().substring(0,user.getEmail().indexOf("@"));
+            userId= user.getUid();
             options.put("name", ""+email);
 
             /**
@@ -146,7 +147,8 @@ public class BookIntro extends AppCompatActivity implements PaymentResultListene
     @Override
     public void onPaymentSuccess(String s) {
 
-        bookintrodataSnapshot.child("subscribers").getRef().child(email).setValue(s);
+        bookintrodataSnapshot.child("subscribers").getRef().child(userId).child("username").setValue(email);
+        bookintrodataSnapshot.child("subscribers").getRef().child(userId).child("transactionID").setValue(s);
         booklistreference.child(""+StaticVariableClass.cardposition).removeEventListener(valueEventListener);
         Intent resultintent= new Intent();
         resultintent.setComponent(new ComponentName(BookIntro.this, LandingPage.class));

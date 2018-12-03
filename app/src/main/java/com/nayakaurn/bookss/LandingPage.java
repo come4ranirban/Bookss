@@ -1,15 +1,19 @@
 package com.nayakaurn.bookss;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -34,13 +38,14 @@ import com.google.firebase.database.DataSnapshot;
 import com.razorpay.Checkout;
 import com.razorpay.PaymentResultListener;
 
-import io.fabric.sdk.android.Fabric;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import javax.xml.transform.Result;
+
+import io.fabric.sdk.android.Fabric;
 
 public class LandingPage extends AppCompatActivity{
 
@@ -50,20 +55,32 @@ public class LandingPage extends AppCompatActivity{
 
     static BottomNavigationView navigationView;
     static LandingPage landingPage;
-    static boolean setfragment= false;
+    static boolean setfragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
 
         Fresco.initialize(this);
+
+        final Fabric fabric = new Fabric.Builder(this)
+                .kits(new Crashlytics())
+                .debuggable(true)
+                .build();
+
+        Fabric.with(fabric);
+        Fabric.with(this, new Crashlytics());
         //Crashlytics.getInstance().crash();
 
-        if(StaticVariableClass.loadsplashscreen){
+
+        // Check for existing Google Sign In account, if the user is already signed in
+        // the GoogleSignInAccount will be non-null.
+        account = GoogleSignIn.getLastSignedInAccount(this);
+
+        if(account!=null){
             setContentView(R.layout.booksdisplay);
             initialize();
-        }else {
+        }else{
             signInCheck();
         }
     }
@@ -72,17 +89,13 @@ public class LandingPage extends AppCompatActivity{
         StaticVariableClass.loadsplashscreen = true;
         setContentView(R.layout.coverpage);
         StaticVariableClass.mAuth = FirebaseAuth.getInstance();
-        mAuthListner = new FirebaseAuth.AuthStateListener() {
+       /* mAuthListner = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser()==null)
                     setContentView(R.layout.signed_in);
             }
-        };
-
-        // Check for existing Google Sign In account, if the user is already signed in
-        // the GoogleSignInAccount will be non-null.
-        account = GoogleSignIn.getLastSignedInAccount(this);
+        };*/
 
         new CountDownTimer(2000,1000) {
             @Override
@@ -136,6 +149,7 @@ public class LandingPage extends AppCompatActivity{
                 return false;
             }
         });
+
 
         StaticVariableClass.fragmentTransaction= getFragmentManager().beginTransaction().add(R.id.frame, new BooksLibrary());
         StaticVariableClass.fragmentTransaction.commit();
@@ -211,7 +225,7 @@ public class LandingPage extends AppCompatActivity{
                 initialize();
             }
             if(resultCode== RESULT_CANCELED){
-                Toast.makeText(getApplicationContext(), "Payment Failed\n Try again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "SignInFailed", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -261,4 +275,5 @@ public class LandingPage extends AppCompatActivity{
         popup.inflate(R.menu.marksmenu);
         popup.show();
     }
+
 }

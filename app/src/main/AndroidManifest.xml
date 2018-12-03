@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-permission android:name="android.permission.READ_SMS"></uses-permission>
-    <uses-permission android:name="android.permission.RECEIVE_MMS"></uses-permission>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"></uses-permission>
 
     <application
         android:allowBackup="true"
@@ -29,5 +29,8 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="994eee097b8bb205612f5a16b4fd2c483180ecc9" />
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="false" />
     </application>
     </manifest>

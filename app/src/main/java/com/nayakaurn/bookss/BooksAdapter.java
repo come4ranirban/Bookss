@@ -59,11 +59,13 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksViewHolder>{
                 StaticVariableClass.lastfragment.add(BooksLibrary.booksLibrary);
                 final DatabaseReference booklistreference= FirebaseDatabase.getInstance().getReference("Books");
                 FirebaseUser user= StaticVariableClass.mAuth.getCurrentUser();
-                final String email= user.getEmail().substring(0,user.getEmail().indexOf("@"));
+                final String uid=  user.getUid();
+                //final String email= user.getEmail().substring(0,user.getEmail().indexOf("@"));
                 booklistreference.child(""+position).child("subscribers").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.hasChild(email)){
+                        if(dataSnapshot.hasChild(uid))
+                         {
                             StaticVariableClass.purchasestatus = true;
                             StaticVariableClass.fragmentTransaction= LandingPage.landingPage.getFragmentManager().beginTransaction().replace(R.id.frame, new Choise());
                             StaticVariableClass.fragmentTransaction.commit();

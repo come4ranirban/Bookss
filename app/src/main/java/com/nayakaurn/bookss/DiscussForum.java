@@ -9,6 +9,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -19,6 +20,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 public class DiscussForum extends Fragment {
 
     TextView dquestion, commenttext;
+    //NestedScrollView scrollView;
     WebView danswer;
     EditText writecomment;
     RecyclerView comments;
@@ -49,6 +52,7 @@ public class DiscussForum extends Fragment {
         dquestion= (TextView)v.findViewById(R.id.dquestion);
         //danswer= (TextView)v.findViewById(R.id.danswer);
         danswer= (WebView)v.findViewById(R.id.danswer);
+        //scrollView= (NestedScrollView)v.findViewById(R.id.sendlayout);
         commenttext= (TextView)v.findViewById(R.id.comenttext);
         comments= (RecyclerView)v.findViewById(R.id.comments);
         comment= (ImageButton) v.findViewById(R.id.comment);
@@ -107,6 +111,8 @@ public class DiscussForum extends Fragment {
 
                 InputMethodManager imm = (InputMethodManager)LandingPage.landingPage.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(writecomment.getWindowToken(), 0);
+
+                //scrollView.fullScroll(View.FOCUS_DOWN);
             }
         });
     }
