@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -58,7 +59,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksViewHolder>{
                 StaticVariableClass.cardposition = position;
                 StaticVariableClass.lastfragment.add(BooksLibrary.booksLibrary);
                 final DatabaseReference booklistreference= FirebaseDatabase.getInstance().getReference("Books");
-                FirebaseUser user= StaticVariableClass.mAuth.getCurrentUser();
+                FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
                 final String uid=  user.getUid();
                 //final String email= user.getEmail().substring(0,user.getEmail().indexOf("@"));
                 booklistreference.child(""+position).child("subscribers").addValueEventListener(new ValueEventListener() {

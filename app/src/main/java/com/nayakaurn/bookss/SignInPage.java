@@ -56,14 +56,13 @@ public class SignInPage extends AppCompatActivity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        //inapp permissions
+        /*inapp permissions
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.GET_ACCOUNTS)!= PackageManager.PERMISSION_GRANTED)
-                requestPermissions(new String[]{android.Manifest.permission.GET_ACCOUNTS},1);
+            //    requestPermissions(new String[]{android.Manifest.permission.GET_ACCOUNTS},1);
             //if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_SMS)!= PackageManager.PERMISSION_GRANTED)
             //    requestPermissions(new String[]{Manifest.permission.READ_SMS},2);
-
-        }
+        }*/
 
 
         button = (SignInButton)findViewById(R.id.signin);
@@ -74,7 +73,6 @@ public class SignInPage extends AppCompatActivity {
                 signIn();
             }
         });
-
     }
 
     private void signIn() {
@@ -129,21 +127,21 @@ public class SignInPage extends AppCompatActivity {
     }
 
 
-    @Override
+    /*@Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
-        if(requestCode==1){
+        /*if(requestCode==1){
             if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_DENIED) {
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
                 finish();
             }
-        }
+        }*/
 
         /*if(requestCode==2){
             if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_DENIED) {
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
                 finish();
             }
-        }*/
-    }
+        }
+    }*/
 }

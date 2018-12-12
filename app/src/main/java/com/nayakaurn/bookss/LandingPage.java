@@ -73,6 +73,9 @@ public class LandingPage extends AppCompatActivity{
         //Crashlytics.getInstance().crash();
 
 
+        StaticVariableClass.mAuth = FirebaseAuth.getInstance();
+
+
         // Check for existing Google Sign In account, if the user is already signed in
         // the GoogleSignInAccount will be non-null.
         account = GoogleSignIn.getLastSignedInAccount(this);
@@ -88,7 +91,6 @@ public class LandingPage extends AppCompatActivity{
     public void signInCheck(){
         StaticVariableClass.loadsplashscreen = true;
         setContentView(R.layout.coverpage);
-        StaticVariableClass.mAuth = FirebaseAuth.getInstance();
        /* mAuthListner = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {

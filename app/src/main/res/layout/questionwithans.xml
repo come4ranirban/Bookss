@@ -4,6 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     app:cardBackgroundColor="@color/colorWhite"
     android:layout_margin="10dp">
 
@@ -43,6 +44,7 @@
                     android:text="Answer"
                     android:textStyle="bold"
                     android:paddingLeft="5dp"
+                    android:textColor="@color/colorGray"
                     android:layout_gravity="center"
                     android:textSize="13dp"/>
 
@@ -55,18 +57,40 @@
                     android:id="@+id/anscheck"/>
             </LinearLayout>
 
-            <WebView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="13dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:textSize="13dp"
                 android:paddingRight="5dp"
                 android:paddingBottom="3dp"
                 android:textColor="@color/colorPrimaryDark"
-                android:id="@+id/answer"
                 android:visibility="gone"
-                tools:ignore="WebViewLayout" />
+                android:id="@+id/answer"/>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_margin="5dp"
+                android:id="@+id/imagecard"
+                android:visibility="gone">
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/ansimage"
+                    fresco:actualImageScaleType="fitCenter"
+                    />
+            </android.support.v7.widget.CardView>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="18dp"
+                android:background="@color/colorGreen"
+                android:textColor="@color/colorWhite"
+                android:textSize="13dp"
+                android:visibility="gone"
+                android:id="@+id/showimage" />
 
         </LinearLayout>
 
@@ -99,6 +123,7 @@
                 android:layout_gravity="center"
                 android:textStyle="bold"
                 android:typeface="sans"
+                android:textColor="@color/colorAccent"
                 android:text="Discuss in forum"/>
 
         </LinearLayout>

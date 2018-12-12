@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -24,6 +25,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -32,9 +34,9 @@ import com.google.firebase.database.ValueEventListener;
 
 public class DiscussForum extends Fragment {
 
-    TextView dquestion, commenttext;
-    //NestedScrollView scrollView;
-    WebView danswer;
+    TextView dquestion, commenttext, danswer;
+    SimpleDraweeView ansimage;
+    CardView imagecard;
     EditText writecomment;
     RecyclerView comments;
     int position;
@@ -50,11 +52,11 @@ public class DiscussForum extends Fragment {
 
         View v= inflater.inflate(R.layout.discussforum, container, false);
         dquestion= (TextView)v.findViewById(R.id.dquestion);
-        //danswer= (TextView)v.findViewById(R.id.danswer);
-        danswer= (WebView)v.findViewById(R.id.danswer);
-        //scrollView= (NestedScrollView)v.findViewById(R.id.sendlayout);
+        danswer= (TextView)v.findViewById(R.id.danswer);
         commenttext= (TextView)v.findViewById(R.id.comenttext);
+        ansimage= (SimpleDraweeView)v.findViewById(R.id.dansimage);
         comments= (RecyclerView)v.findViewById(R.id.comments);
+        imagecard= (CardView)v.findViewById(R.id.imagecard);
         comment= (ImageButton) v.findViewById(R.id.comment);
         comentline= (View)v.findViewById(R.id.commentline);
         endview= (View)v.findViewById(R.id.endview);
@@ -76,13 +78,17 @@ public class DiscussForum extends Fragment {
             dquestion.setText(Html.fromHtml(StaticVariableClass.dques));
         }
 
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             danswer.setText(Html.fromHtml(StaticVariableClass.dans, Html.FROM_HTML_MODE_LEGACY)) ;
         } else {
             danswer.setText(Html.fromHtml(StaticVariableClass.dans));
-        }*/
+        }
 
-        danswer.loadUrl(StaticVariableClass.dans);
+        if(StaticVariableClass.hasimage){
+            imagecard.setVisibility(View.VISIBLE);
+            ansimage.setImageURI(StaticVariableClass.imageurl);
+        }else
+            imagecard.setVisibility(View.GONE);
 
         updateDatasnapshot();
         return v;
@@ -112,7 +118,6 @@ public class DiscussForum extends Fragment {
                 InputMethodManager imm = (InputMethodManager)LandingPage.landingPage.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(writecomment.getWindowToken(), 0);
 
-                //scrollView.fullScroll(View.FOCUS_DOWN);
             }
         });
     }
