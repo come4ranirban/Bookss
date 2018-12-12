@@ -65,6 +65,7 @@ public class QnA extends Fragment {
                             key++;
                         }
                     }
+                    StaticVariableClass.containsimage.clear();
                     recyclerViewqna.setAdapter(new QnAdapter((int)dataSnapshot.getChildrenCount(), dataSnapshot));
                 }
             }

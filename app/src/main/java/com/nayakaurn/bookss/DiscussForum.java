@@ -84,9 +84,9 @@ public class DiscussForum extends Fragment {
             danswer.setText(Html.fromHtml(StaticVariableClass.dans));
         }
 
-        if(StaticVariableClass.hasimage){
+        if(StaticVariableClass.containsimage.containsKey(StaticVariableClass.discussposition)){
             imagecard.setVisibility(View.VISIBLE);
-            ansimage.setImageURI(StaticVariableClass.imageurl);
+            ansimage.setImageURI(StaticVariableClass.containsimage.get(StaticVariableClass.discussposition));
         }else
             imagecard.setVisibility(View.GONE);
 

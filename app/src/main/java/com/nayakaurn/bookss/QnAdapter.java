@@ -31,7 +31,7 @@ public class QnAdapter extends RecyclerView.Adapter <QnAViewHolder>{
 
     int count;
     DataSnapshot dataSnapshot;
-    String qhtml,ahtml;
+    String qhtml,ahtml, imageurl;
     View v;
 
     QnAdapter(int count, DataSnapshot dataSnapshot){
@@ -65,6 +65,12 @@ public class QnAdapter extends RecyclerView.Adapter <QnAViewHolder>{
         }else
             holder.question.setText(Html.fromHtml(qhtml));
 
+        if(dataSnapshot.child(position).hasChild("imageurl")) {
+            imageurl= dataSnapshot.child(position).child("imageurl").getValue().toString();
+            StaticVariableClass.containsimage.put(Integer.parseInt(position), imageurl);
+
+        }
+
         holder.ansclick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,12 +80,10 @@ public class QnAdapter extends RecyclerView.Adapter <QnAViewHolder>{
                     holder.answer.setVisibility(View.VISIBLE);
                     if(dataSnapshot.child(position).hasChild("imageurl")) {
                         holder.showimage.setVisibility(View.VISIBLE);
-                        StaticVariableClass.hasimage= true;
-                        StaticVariableClass.imageurl= dataSnapshot.child(position).child("imageurl").getValue().toString();
+                        imageurl= dataSnapshot.child(position).child("imageurl").getValue().toString();
                     }
                     else{
                         holder.showimage.setVisibility(View.GONE);
-                        StaticVariableClass.hasimage= false;
                     }
 
                 }else {

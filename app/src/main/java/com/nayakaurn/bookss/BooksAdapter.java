@@ -73,7 +73,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksViewHolder>{
                         }else {
                             booklistreference.child(""+position).child("subscribers").removeEventListener(this);
                             StaticVariableClass.purchasestatus = false;
-                            StaticVariableClass.fragmentTransaction= LandingPage.landingPage.getFragmentManager().beginTransaction().replace(R.id.frame, new Choise());
+                            StaticVariableClass.fragmentTransaction= LandingPage.landingPage.getFragmentManager().beginTransaction().replace(R.id.frame, new FlashBookDetails());
                             StaticVariableClass.fragmentTransaction.commit();
                             /*Intent intent= new Intent(LandingPage.landingPage, BookIntro.class);
                             LandingPage.landingPage.startActivityForResult(intent, 100);*/

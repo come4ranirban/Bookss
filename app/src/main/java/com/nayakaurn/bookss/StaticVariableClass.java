@@ -23,10 +23,11 @@ public class StaticVariableClass {
     public static DatabaseReference booklistrefrence;
     public static DataSnapshot discussdataSnapshot,readsnapshot;
     public static ImageButton menu;
-    public static boolean loadsplashscreen=false, ansvisible=false, purchasestatus=true, ansimage=true, hasimage;
+    public static boolean loadsplashscreen=false, ansvisible=false, purchasestatus=true, ansimage=true;
     public static ArrayList<Fragment> lastfragment= new ArrayList<>();
     public static ArrayList<Fragment> resumefragment= new ArrayList<>();
+    public static HashMap<Integer, String> containsimage= new HashMap<>();
     public static TextView toolbartxt;
-    public static String dques,dans, imageurl;
+    public static String dques,dans;
     public static HashMap<Integer, String> selectedQnA= new HashMap<Integer, String>();
 }

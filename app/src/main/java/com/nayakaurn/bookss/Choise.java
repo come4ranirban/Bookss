@@ -31,7 +31,7 @@ public class Choise extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         View v= inflater.inflate(R.layout.choice, container, false);
-        StaticVariableClass.toolbartxt.setText("Chapters");
+        StaticVariableClass.toolbartxt.setText("Questions & Answers");
         choise= this;
 
         if(!StaticVariableClass.resumefragment.contains(choise))
@@ -48,6 +48,7 @@ public class Choise extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        StaticVariableClass.marksselected=0;
         LandingPage.navigationView.setVisibility(View.GONE);
         StaticVariableClass.menu.setVisibility(View.GONE);
         DatabaseReference booklistreference= FirebaseDatabase.getInstance().getReference("Books");
