@@ -18,6 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class FlashBookDetails extends Fragment {
 
+    //flashbook object
     FlashBookDetails flashBookDetails;
 
     @Nullable
