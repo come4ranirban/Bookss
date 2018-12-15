@@ -2,6 +2,7 @@ package com.nayakaurn.bookss;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,7 +23,12 @@ import com.google.firebase.database.ValueEventListener;
 public class QnA extends Fragment {
 
     RecyclerView recyclerViewqna;
+    DataSnapshot dataSnap;
     static QnA qnA;
+    Bundle savedstate;
+    Parcelable liststate;
+    String KEY_RECYCLER_STATE = "recycler_state";
+
 
     @Nullable
     @Override
@@ -39,17 +45,12 @@ public class QnA extends Fragment {
         if(!StaticVariableClass.resumefragment.contains(qnA))
             StaticVariableClass.resumefragment.add(qnA);
 
-        return v;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         LandingPage.navigationView.setVisibility(View.GONE);
         StaticVariableClass.menu.setVisibility(View.VISIBLE);
         StaticVariableClass.booklistrefrence.child(""+StaticVariableClass.cardposition).child("choice").child(""+StaticVariableClass.choosecardposition).child("qna").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                dataSnap= dataSnapshot;
                 int qnacount= (int)dataSnapshot.getChildrenCount();
                 StaticVariableClass.selectedQnA.clear();
                 if(qnacount>0) {
@@ -75,5 +76,29 @@ public class QnA extends Fragment {
 
             }
         });
+
+        return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(KEY_RECYCLER_STATE, recyclerViewqna.getLayoutManager().onSaveInstanceState());
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            Parcelable savedRecyclerLayoutState = savedInstanceState.getParcelable(KEY_RECYCLER_STATE);
+            recyclerViewqna.getLayoutManager().onRestoreInstanceState(savedRecyclerLayoutState);
+        }
     }
 }

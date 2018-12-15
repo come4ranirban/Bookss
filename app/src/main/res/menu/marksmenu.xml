@@ -10,6 +10,14 @@
         android:title="two marks"
         app:showAsAction="ifRoom"/>
 
+    <item android:id="@+id/three"
+        android:title="three marks"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/four"
+        android:title="four marks"
+        app:showAsAction="ifRoom"/>
+
     <item android:id="@+id/five"
         android:title="five marks"
         app:showAsAction="ifRoom"/>

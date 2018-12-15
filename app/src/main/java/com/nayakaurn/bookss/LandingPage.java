@@ -50,7 +50,6 @@ import io.fabric.sdk.android.Fabric;
 public class LandingPage extends AppCompatActivity{
 
     GoogleSignInAccount account;
-    FirebaseAuth.AuthStateListener  mAuthListner;
     FrameLayout bookFrame;
 
     static BottomNavigationView navigationView;
@@ -252,6 +251,18 @@ public class LandingPage extends AppCompatActivity{
 
                     case R.id.two:
                         StaticVariableClass.marksselected = 2;
+                        StaticVariableClass.fragmentTransaction= LandingPage.landingPage.getFragmentManager().beginTransaction().replace(R.id.frame, new QnA());
+                        StaticVariableClass.fragmentTransaction.commit();
+                        return true;
+
+                    case R.id.three:
+                        StaticVariableClass.marksselected = 3;
+                        StaticVariableClass.fragmentTransaction= LandingPage.landingPage.getFragmentManager().beginTransaction().replace(R.id.frame, new QnA());
+                        StaticVariableClass.fragmentTransaction.commit();
+                        return true;
+
+                    case R.id.four:
+                        StaticVariableClass.marksselected = 4;
                         StaticVariableClass.fragmentTransaction= LandingPage.landingPage.getFragmentManager().beginTransaction().replace(R.id.frame, new QnA());
                         StaticVariableClass.fragmentTransaction.commit();
                         return true;
