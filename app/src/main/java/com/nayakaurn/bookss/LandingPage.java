@@ -1,30 +1,17 @@
 package com.nayakaurn.bookss;
 
-import android.Manifest;
-import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,17 +20,6 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.razorpay.Checkout;
-import com.razorpay.PaymentResultListener;
-
-import org.json.JSONObject;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
-import javax.xml.transform.Result;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -137,9 +113,9 @@ public class LandingPage extends AppCompatActivity{
                         StaticVariableClass.fragmentTransaction.commit();
                         break;
 
-                    case R.id.personalize:
+                    case R.id.aboutusmenu:
                         item.setChecked(true);
-                        StaticVariableClass.fragmentTransaction= getFragmentManager().beginTransaction().replace(R.id.frame, new Personalize());
+                        StaticVariableClass.fragmentTransaction= getFragmentManager().beginTransaction().replace(R.id.frame, new AboutUsPage());
                         StaticVariableClass.fragmentTransaction.commit();
                         break;
 
