@@ -7,7 +7,7 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/svadhaya"
-        android:label="Svadhaya"
+        android:label="Svadhyaya"
         android:roundIcon="@mipmap/svadhaya_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
