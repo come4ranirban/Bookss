@@ -55,6 +55,7 @@
                     android:src="@drawable/expand"
                     android:layout_gravity="center"
                     android:id="@+id/anscheck"/>
+
             </LinearLayout>
 
             <TextView

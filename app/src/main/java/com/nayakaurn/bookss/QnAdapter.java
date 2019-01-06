@@ -54,6 +54,8 @@ public class QnAdapter extends RecyclerView.Adapter <QnAViewHolder>{
         final String position= StaticVariableClass.selectedQnA.get(count);
         qhtml= dataSnapshot.child(position).child("q").getValue().toString();
         ahtml= dataSnapshot.child(position).child("a").getValue().toString();
+
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             holder.answer.setText(Html.fromHtml(ahtml, Html.FROM_HTML_MODE_LEGACY)) ;
         } else {
@@ -68,7 +70,30 @@ public class QnAdapter extends RecyclerView.Adapter <QnAViewHolder>{
         if(dataSnapshot.child(position).hasChild("imageurl")) {
             imageurl= dataSnapshot.child(position).child("imageurl").getValue().toString();
             StaticVariableClass.containsimage.put(Integer.parseInt(position), imageurl);
+        }
 
+        StaticVariableClass.ansvisible = false;
+
+        if(StaticVariableClass.ansvisible){
+            holder.anscheck.setImageResource(R.drawable.contrap);
+            StaticVariableClass.ansvisible= false;
+            holder.answer.setVisibility(View.VISIBLE);
+            if(dataSnapshot.child(position).hasChild("imageurl")) {
+                holder.showimage.setVisibility(View.VISIBLE);
+                imageurl= dataSnapshot.child(position).child("imageurl").getValue().toString();
+            }
+            else{
+                holder.showimage.setVisibility(View.GONE);
+            }
+        }else {
+            holder.anscheck.setImageResource(R.drawable.expand);
+            StaticVariableClass.ansvisible= true;
+            holder.imageCard.setVisibility(View.GONE);
+            holder.showimage.setVisibility(View.GONE);
+            holder.showimage.setText("SHOWIMAGE");
+            holder.showimage.setBackgroundColor(Color.parseColor("#33691E"));
+            StaticVariableClass.ansimage = true;
+            holder.answer.setVisibility(View.GONE);
         }
 
         holder.ansclick.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +123,7 @@ public class QnAdapter extends RecyclerView.Adapter <QnAViewHolder>{
                 }
             }
         });
+
 
         holder.showimage.setOnClickListener(new View.OnClickListener() {
             @Override

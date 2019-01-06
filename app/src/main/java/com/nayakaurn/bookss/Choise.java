@@ -51,8 +51,8 @@ public class Choise extends Fragment {
         StaticVariableClass.marksselected=0;
         LandingPage.navigationView.setVisibility(View.GONE);
         StaticVariableClass.menu.setVisibility(View.GONE);
-        DatabaseReference booklistreference= FirebaseDatabase.getInstance().getReference("Books");
-        booklistreference.child(""+StaticVariableClass.cardposition).child("choice").addValueEventListener(new ValueEventListener() {
+        //DatabaseReference booklistreference= FirebaseDatabase.getInstance().getReference("Books");
+        StaticVariableClass.booklistrefrence.child(""+StaticVariableClass.cardposition).child("choice").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getChildrenCount()>0) {
